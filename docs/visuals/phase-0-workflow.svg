@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="520" viewBox="0 0 1320 520" fill="#172033" role="img" aria-labelledby="workflow-title workflow-description">
+  <title id="workflow-title">Current phase-0 data-quality evidence workflow</title>
+  <desc id="workflow-description">The implemented pipeline captures source bytes without following the final symlink, parses within fixed bounds, computes contract metrics, serializes canonical JSON, and checks byte freshness.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+  </style>
+  <rect width="1320" height="520" fill="#FFFFFF"/>
+  <rect x="34" y="34" width="1252" height="452" rx="18" fill="#FFFFFF" stroke="#DDE3EA" stroke-width="2"/>
+  <text x="62" y="88" font-size="28" font-weight="700">Current phase-0 data-quality evidence workflow</text>
+  <text x="62" y="120" font-size="16" fill="#5F6B7A">Implemented path from one captured source snapshot to checked, canonical aggregate evidence</text>
+  <rect x="1018" y="70" width="224" height="38" rx="19" fill="#E8F1FA" stroke="#2563A6" stroke-width="1"/>
+  <text x="1130" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#184A7A">CURRENT · IMPLEMENTED</text>
+  <rect x="58" y="190" width="218" height="218" rx="14" fill="#E8F1FA" stroke="#2563A6" stroke-width="2"/>
+  <circle cx="86" cy="220" r="16" fill="#2563A6"/>
+  <text class="mono" x="86" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="76" y="268" font-size="17" font-weight="700">Captured source bytes</text>
+  <text x="76" y="306" font-size="14" fill="#5F6B7A">regular file · no-follow</text>
+  <text x="76" y="333" font-size="14" fill="#5F6B7A">unchanged-file identity</text>
+  <text x="76" y="360" font-size="14" fill="#5F6B7A">train.csv</text>
+  <line x1="280" y1="299" x2="296" y2="299" stroke="#5F6B7A" stroke-width="2"/>
+  <polygon points="296,299 288,293 288,305" fill="#5F6B7A"/>
+  <rect x="304" y="190" width="218" height="218" rx="14" fill="#E8F1FA" stroke="#2563A6" stroke-width="2"/>
+  <circle cx="332" cy="220" r="16" fill="#2563A6"/>
+  <text class="mono" x="332" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="322" y="268" font-size="17" font-weight="700">Bounded CSV parser</text>
+  <text x="322" y="306" font-size="14" fill="#5F6B7A">≤ 16 MiB · ≤ 50k rows</text>
+  <text x="322" y="333" font-size="14" fill="#5F6B7A">≤ 32 columns</text>
+  <text x="322" y="360" font-size="14" fill="#5F6B7A">≤ 4,096 chars / line</text>
+  <text x="322" y="387" font-size="14" fill="#5F6B7A">one record / physical line</text>
+  <line x1="526" y1="299" x2="542" y2="299" stroke="#5F6B7A" stroke-width="2"/>
+  <polygon points="542,299 534,293 534,305" fill="#5F6B7A"/>
+  <rect x="550" y="190" width="218" height="218" rx="14" fill="#E8F1FA" stroke="#2563A6" stroke-width="2"/>
+  <circle cx="578" cy="220" r="16" fill="#2563A6"/>
+  <text class="mono" x="578" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="568" y="268" font-size="17" font-weight="700">Contract + metrics</text>
+  <text x="568" y="306" font-size="14" fill="#5F6B7A">identity · shape</text>
+  <text x="568" y="333" font-size="14" fill="#5F6B7A">frozen schema · 11 columns</text>
+  <text x="568" y="360" font-size="14" fill="#5F6B7A">completeness · grain</text>
+  <line x1="772" y1="299" x2="788" y2="299" stroke="#5F6B7A" stroke-width="2"/>
+  <polygon points="788,299 780,293 780,305" fill="#5F6B7A"/>
+  <rect x="796" y="190" width="218" height="218" rx="14" fill="#FBF3DF" stroke="#C18A22" stroke-width="2"/>
+  <circle cx="824" cy="220" r="16" fill="#C18A22"/>
+  <text class="mono" x="824" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#172033">4</text>
+  <text x="814" y="268" font-size="17" font-weight="700">Canonical JSON</text>
+  <text x="814" y="306" font-size="14" fill="#5F6B7A">sorted keys · UTF-8</text>
+  <text x="814" y="333" font-size="14" fill="#5F6B7A">LF · final newline</text>
+  <text x="814" y="360" font-size="14" fill="#5F6B7A">train.quality.json</text>
+  <line x1="1018" y1="299" x2="1034" y2="299" stroke="#5F6B7A" stroke-width="2"/>
+  <polygon points="1034,299 1026,293 1026,305" fill="#5F6B7A"/>
+  <rect x="1042" y="190" width="218" height="218" rx="14" fill="#FBF3DF" stroke="#C18A22" stroke-width="2"/>
+  <circle cx="1070" cy="220" r="16" fill="#C18A22"/>
+  <text class="mono" x="1070" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#172033">5</text>
+  <text x="1060" y="268" font-size="17" font-weight="700">Freshness check</text>
+  <text x="1060" y="306" font-size="14" fill="#5F6B7A">regenerate in memory</text>
+  <text x="1060" y="333" font-size="14" fill="#5F6B7A">fresh bytes == tracked</text>
+  <text x="1060" y="360" font-size="14" fill="#5F6B7A">otherwise fail closed</text>
+  <text x="62" y="449" font-size="14" fill="#5F6B7A">Frozen input: 44,691 rows · SHA-256 de941def7fac…</text>
+  <text x="1258" y="449" text-anchor="end" font-size="14" fill="#5F6B7A">No map, model, API, or live data claim</text>
+</svg>

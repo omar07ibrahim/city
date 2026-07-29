@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" fill="#172033" role="img" aria-labelledby="cli-title cli-description">
+  <title id="cli-title">Reproducible audit check</title>
+  <desc id="cli-description">A deterministic terminal-style rendering of the actual audit check command, its standard streams, and exit code zero.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+  </style>
+  <rect width="1200" height="560" fill="#FFFFFF"/>
+  <rect x="48" y="42" width="1104" height="476" rx="18" fill="#FFFFFF" stroke="#DDE3EA" stroke-width="2"/>
+  <text x="78" y="91" font-size="28" font-weight="700">Reproducible audit check</text>
+  <text x="78" y="121" font-size="16" fill="#5F6B7A">Actual subprocess result captured during generation; machine paths and timestamps are absent</text>
+  <rect x="78" y="154" width="1044" height="300" rx="12" fill="#F7F9FC" stroke="#DDE3EA" stroke-width="1"/>
+  <circle cx="104" cy="178" r="5" fill="#2563A6"/>
+  <circle cx="122" cy="178" r="5" fill="#C18A22"/>
+  <text class="mono" x="104" y="218" font-size="13" font-weight="700" fill="#5F6B7A">command</text>
+  <text class="mono" x="104" y="244" font-size="15" fill="#2563A6">$ python3 -m urbanlens.audit --check-manifest artifacts/data_quality/train.quality.json</text>
+  <text class="mono" x="104" y="282" font-size="13" font-weight="700" fill="#5F6B7A">stdout</text>
+  <text class="mono" x="104" y="308" font-size="15" fill="#5F6B7A">(empty)</text>
+  <text class="mono" x="104" y="346" font-size="13" font-weight="700" fill="#5F6B7A">stderr</text>
+  <text class="mono" x="104" y="372" font-size="15" fill="#172033">manifest PASS: artifacts/data_quality/train.quality.json</text>
+  <rect x="946" y="472" width="176" height="30" rx="15" fill="#FBF3DF" stroke="#C18A22" stroke-width="1"/>
+  <text class="mono" x="1034" y="492" text-anchor="middle" font-size="13" font-weight="700" fill="#7A5411">EXIT CODE 0</text>
+  <text x="78" y="492" font-size="13" fill="#5F6B7A">Source SHA-256 de941def7fac… · captured only after byte-for-byte freshness passed</text>
+</svg>
