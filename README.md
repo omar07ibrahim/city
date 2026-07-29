@@ -18,8 +18,10 @@ map is claimed yet.
 | SHA-256 | `de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18` |
 | Original repository commit | `86eec43a0951cad32d84adac1ad3fb48788c6afc` |
 
-The intended grain is one city record per SimpleMaps-generated `id`. The
-checked-in schema is:
+The intended grain is one source city record per source-provided `id`. The
+schema and identifier pattern are consistent with the inferred SimpleMaps
+source described below, but the repository does not claim authenticated
+release provenance. The checked-in schema is:
 
 ```text
 city, city_ascii, lat, lng, country, iso2, iso3,
@@ -59,45 +61,66 @@ The initial read-only profile found:
 | Repeated city/country/admin rows beyond the first | 301 | names are not a safe key |
 | Repeated coordinate rows beyond the first | 136 | coordinates are not a safe key |
 | Exact duplicates excluding `id` | 0 | repeated names/coordinates still differ in another field |
+| ISO2 codes mapping to multiple ISO3 codes | 0 | the code-pair relationship is structurally consistent |
+| Exact country-label variants within an ISO2 | 1 | normalize labels deliberately before grouping |
 
 These checks establish a baseline, not a guarantee of geopolitical truth,
 population freshness, or entity-resolution correctness. Country labels and
 administrative assignments follow the upstream source's conventions. The
 population field is an estimate and is not available for every city.
 
-## Reproduce the identity checks
+## Run the reproducible audit
 
-Only Python's standard library and common Unix checksum tools are required:
+The phase-0 audit is now an executable, dependency-free contract. It reads the
+real checked-in CSV and emits a deterministic aggregate manifest:
 
 ```bash
-sha256sum train.csv
-wc -c -l train.csv
-python3 - <<'PY'
-import csv
-from pathlib import Path
-
-with Path("train.csv").open(newline="", encoding="utf-8-sig") as stream:
-    rows = list(csv.DictReader(stream))
-
-assert len(rows) == 44_691
-assert len({row["id"] for row in rows}) == len(rows)
-assert all(-90 <= float(row["lat"]) <= 90 for row in rows)
-assert all(-180 <= float(row["lng"]) <= 180 for row in rows)
-print("snapshot contract: PASS")
-PY
+python3 -m urbanlens.audit \
+  --check-manifest artifacts/data_quality/train.quality.json
+python3 -m unittest discover -s tests -v
 ```
 
-A dedicated, machine-readable audit command and checked quality manifest are
-the next implementation step; the inline probe above deliberately covers only
-the immutable phase-0 contract.
+A fresh manifest can be printed to standard output or written atomically:
+
+```bash
+python3 -m urbanlens.audit train.csv
+python3 -m urbanlens.audit train.csv \
+  --output artifacts/data_quality/train.quality.json
+```
+
+The parser fails closed above stable safety limits: 16 MiB of source bytes,
+50,000 data rows, 32 columns, and 4,096 characters per physical line. The
+frozen snapshot is 4,734,682 bytes, 44,691 rows, 11 columns, and at most 187
+characters per physical line. Multi-line CSV records are outside this
+snapshot's contract. Checked manifests must be unchanged regular files of at
+most 1 MiB; symlinks, FIFOs, and devices are rejected.
+
+For `--output`, the destination directory is opened once without following a
+final symlink and held by file descriptor through the audit and atomic rename.
+This prevents a concurrent parent-path replacement from redirecting the
+manifest write.
+
+The checked
+[`train.quality.json`](artifacts/data_quality/train.quality.json) is bound to
+the CSV SHA-256 and contains schema, completeness, uniqueness, domain, and
+cross-field evidence. It intentionally contains no timestamp or absolute path,
+raw source row, or source label, so independent runs are byte-for-byte
+comparable. Row-derived rates are integer parts per million rather than
+floating-point values; non-row observations do not publish a false row rate.
+
+The [manifest v2 contract](docs/data-quality-manifest-v2.md) documents the
+schema, invariants, canonical encoding, and exit codes. A passing audit means
+the frozen file satisfies this structural contract; it does not certify that
+the historical source values are current or geopolitically authoritative.
 
 ## Portfolio roadmap
 
 Development will proceed in reviewable, reproducible slices:
 
 1. deterministic ingestion, schema validation, and a committed quality
-   manifest bound to the CSV hash;
-2. Haversine and spatial-index nearest-city baselines with a typed CLI;
+   manifest bound to the CSV hash (**implemented**);
+2. source-derived quality visuals with freshness checks, followed by
+   Haversine and spatial-index nearest-city baselines with a typed CLI;
 3. population imputation with geographic features, spatial cross-validation,
    simple baselines, and conformal uncertainty intervals;
 4. frozen regional evaluation slices with RMSLE, MAE, interval coverage, and

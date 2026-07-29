@@ -1,0 +1,340 @@
+{
+  "dataset": {
+    "byte_size": 4734682,
+    "data_rows": 44691,
+    "encoding": "utf-8-sig",
+    "name": "train.csv",
+    "sha256": "de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18"
+  },
+  "grain": {
+    "candidate_key": [
+      "id"
+    ],
+    "description": "one source city record per source-provided id"
+  },
+  "manifest": {
+    "canonicalization": "UTF-8, sorted object keys, two-space indent, LF, final newline",
+    "schema": "urbanlens.data-quality-manifest",
+    "schema_version": 2,
+    "tool": "python3 -m urbanlens.audit",
+    "tool_version": "0.2.0"
+  },
+  "quality": {
+    "contract_checks": [
+      {
+        "actual": "de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18",
+        "expected": "de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18",
+        "id": "snapshot.sha256",
+        "status": "pass"
+      },
+      {
+        "actual": 4734682,
+        "expected": 4734682,
+        "id": "snapshot.byte_size",
+        "status": "pass"
+      },
+      {
+        "actual": 44691,
+        "expected": 44691,
+        "id": "snapshot.data_rows",
+        "status": "pass"
+      },
+      {
+        "actual": [
+          "city",
+          "city_ascii",
+          "lat",
+          "lng",
+          "country",
+          "iso2",
+          "iso3",
+          "admin_name",
+          "capital",
+          "population",
+          "id"
+        ],
+        "expected": [
+          "city",
+          "city_ascii",
+          "lat",
+          "lng",
+          "country",
+          "iso2",
+          "iso3",
+          "admin_name",
+          "capital",
+          "population",
+          "id"
+        ],
+        "id": "schema.columns",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "schema.row_width_mismatches",
+        "status": "pass"
+      },
+      {
+        "actual": {
+          "city": 0,
+          "city_ascii": 0,
+          "country": 0,
+          "id": 0,
+          "iso2": 0,
+          "iso3": 0
+        },
+        "expected": {
+          "city": 0,
+          "city_ascii": 0,
+          "country": 0,
+          "id": 0,
+          "iso2": 0,
+          "iso3": 0
+        },
+        "id": "required_fields.blank_counts",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "id.duplicate_row_excess",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "id.invalid_format",
+        "status": "pass"
+      },
+      {
+        "actual": {
+          "latitude": 0,
+          "longitude": 0
+        },
+        "expected": {
+          "latitude": 0,
+          "longitude": 0
+        },
+        "id": "coordinates.invalid_counts",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "population.invalid_nonblank_values",
+        "status": "pass"
+      },
+      {
+        "actual": {
+          "iso2": 0,
+          "iso3": 0
+        },
+        "expected": {
+          "iso2": 0,
+          "iso3": 0
+        },
+        "id": "iso.invalid_format_counts",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "iso.iso2_to_iso3_conflicting_codes",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "capital.invalid_values",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "city_ascii.non_ascii_values",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
+        "id": "rows.exact_duplicates_excluding_id",
+        "status": "pass"
+      }
+    ],
+    "metrics": {
+      "distinct_counts": {
+        "admin_name": 4021,
+        "capital": 4,
+        "city": 41343,
+        "city_ascii": 41140,
+        "country": 241,
+        "id": 44691,
+        "iso2": 240,
+        "iso3": 240,
+        "lat": 34663,
+        "lng": 37122,
+        "population": 29683
+      },
+      "duplicates": {
+        "city_country_admin": {
+          "duplicate_group_count": 251,
+          "duplicate_row_excess_count": 301,
+          "rows_in_duplicate_groups": 552
+        },
+        "coordinates": {
+          "duplicate_group_count": 105,
+          "duplicate_row_excess_count": 136,
+          "rows_in_duplicate_groups": 241
+        },
+        "exact_rows_excluding_id": {
+          "duplicate_group_count": 0,
+          "duplicate_row_excess_count": 0,
+          "rows_in_duplicate_groups": 0
+        },
+        "id": {
+          "duplicate_group_count": 0,
+          "duplicate_row_excess_count": 0,
+          "rows_in_duplicate_groups": 0
+        }
+      },
+      "mapping_consistency": {
+        "iso2_to_country_conflicting_code_count": 1,
+        "iso2_to_country_label_variant_excess_count": 1,
+        "iso2_to_iso3_conflicting_code_count": 0
+      },
+      "missingness": {
+        "admin_name": {
+          "count": 316,
+          "row_rate_ppm": 7071
+        },
+        "capital": {
+          "count": 33553,
+          "row_rate_ppm": 750778
+        },
+        "city": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "city_ascii": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "country": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "id": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "iso2": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "iso3": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "lat": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "lng": {
+          "count": 0,
+          "row_rate_ppm": 0
+        },
+        "population": {
+          "count": 307,
+          "row_rate_ppm": 6869
+        }
+      },
+      "profiled_rows": 44691,
+      "validity": {
+        "invalid_capital_value_count": 0,
+        "invalid_id_format_count": 0,
+        "invalid_iso2_format_count": 0,
+        "invalid_iso3_format_count": 0,
+        "invalid_latitude_count": 0,
+        "invalid_longitude_count": 0,
+        "invalid_population_count": 0,
+        "non_ascii_city_ascii_count": 0
+      }
+    },
+    "observations": [
+      {
+        "count": 316,
+        "id": "admin_name.missing",
+        "interpretation": "Administrative joins need an explicit missing-value policy.",
+        "row_rate_ppm": 7071,
+        "severity": "medium"
+      },
+      {
+        "count": 33553,
+        "id": "capital.unmarked",
+        "interpretation": "Blank means not marked as a capital; it is an allowed source value.",
+        "row_rate_ppm": 750778,
+        "severity": "informational"
+      },
+      {
+        "count": 307,
+        "id": "population.missing",
+        "interpretation": "Population modeling needs an explicit missing-value policy.",
+        "row_rate_ppm": 6869,
+        "severity": "medium"
+      },
+      {
+        "count": 301,
+        "id": "grain.repeated_city_country_admin",
+        "interpretation": "City, country, and admin labels are not a safe composite key.",
+        "row_rate_ppm": 6735,
+        "severity": "medium"
+      },
+      {
+        "count": 136,
+        "id": "grain.repeated_coordinates",
+        "interpretation": "Coordinates alone are not a safe row key.",
+        "row_rate_ppm": 3043,
+        "severity": "medium"
+      },
+      {
+        "count": 1,
+        "id": "country.exact_label_variants_per_iso2",
+        "interpretation": "Exact country labels vary within an ISO2 and should be normalized deliberately before grouping.",
+        "severity": "low"
+      }
+    ],
+    "status": "pass",
+    "summary": {
+      "failed": 0,
+      "passed": 15,
+      "total": 15
+    }
+  },
+  "schema": {
+    "column_count": 11,
+    "columns": [
+      "city",
+      "city_ascii",
+      "lat",
+      "lng",
+      "country",
+      "iso2",
+      "iso3",
+      "admin_name",
+      "capital",
+      "population",
+      "id"
+    ],
+    "row_width_mismatch_count": 0
+  },
+  "scope": {
+    "covers": "snapshot identity, CSV shape, completeness, uniqueness, stable domains, and basic cross-field consistency",
+    "does_not_establish": [
+      "current population values",
+      "geopolitical correctness",
+      "authenticated upstream release provenance",
+      "entity-resolution correctness"
+    ]
+  }
+}
