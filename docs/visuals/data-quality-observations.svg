@@ -38,10 +38,10 @@
   <text x="398" y="409" text-anchor="end" font-size="16" fill="#172033">Repeated city/country/admin (excess rows)</text>
   <rect x="420" y="378" width="550" height="48" rx="5" fill="#2563A6" stroke="#184A7A" stroke-width="1"/>
   <text class="mono" x="984" y="409" font-size="15" font-weight="700">301 · 0.67%</text>
-  <text x="398" y="487" text-anchor="end" font-size="16" fill="#172033">Repeated coordinates (excess rows)</text>
-  <rect x="420" y="456" width="249" height="48" rx="5" fill="#2563A6" stroke="#184A7A" stroke-width="1"/>
-  <text class="mono" x="683" y="487" font-size="15" font-weight="700">136 · 0.30%</text>
+  <text x="398" y="487" text-anchor="end" font-size="16" fill="#172033">Repeated canonical coordinates (excess rows)</text>
+  <rect x="420" y="456" width="251" height="48" rx="5" fill="#2563A6" stroke="#184A7A" stroke-width="1"/>
+  <text class="mono" x="685" y="487" font-size="15" font-weight="700">137 · 0.31%</text>
   <line x1="72" y1="568" x2="1128" y2="568" stroke="#DDE3EA" stroke-width="1"/>
   <text x="72" y="602" font-size="14" fill="#5F6B7A">Counts are aggregate missing or excess-row observations; categories can overlap.</text>
-  <text x="72" y="630" font-size="14" fill="#5F6B7A">Source: train.csv · SHA-256 de941def7fac… · urbanlens.data-quality-manifest v2</text>
+  <text x="72" y="630" font-size="14" fill="#5F6B7A">Source: train.csv · SHA-256 de941def7fac… · urbanlens.data-quality-manifest v3</text>
 </svg>

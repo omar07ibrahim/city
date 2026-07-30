@@ -1,4 +1,4 @@
-# Data-quality manifest contract, version 2
+# Data-quality manifest contract, version 3
 
 `artifacts/data_quality/train.quality.json` is an aggregate, machine-readable
 audit of the exact `train.csv` snapshot. It contains no sampled records,
@@ -38,11 +38,22 @@ only when every contract check passes. A passing status establishes structural
 fitness for the next project phase; it does **not** claim that the historical
 population estimates or geopolitical labels are current or authoritative.
 
-Version 2 makes rate denominators explicit by semantics: missingness and
-row-derived observations use `quality.metrics.profiled_rows`. Observations
-whose counts describe code/label relationships rather than rows omit
-`row_rate_ppm`. It also replaces the inferred provider-specific grain wording
-with the evidence-bounded phrase “source-provided id.”
+Version 3 preserves the explicit rate semantics introduced in version 2 and
+removes an ambiguity in the coordinate evidence. It now reports both:
+
+- `duplicates.coordinate_tokens`, which groups latitude and longitude strings
+  after the phase-0 field trim but without numeric parsing; and
+- `duplicates.coordinate_e7`, which groups lossless integer coordinates at
+  seven decimal places after canonicalizing signed zero, `+180` longitude to
+  `-180`, and every longitude at an exact pole to zero. This path requires
+  bounded ASCII decimal tokens with no exponent, separator, surrounding
+  whitespace, or more than seven fractional digits.
+
+The frozen source has 136 excess rows under token equality but 137 under E7
+numeric equality. Two rows written at different decimal precision form the
+additional physical-location group. The `grain.repeated_coordinate_e7`
+observation and the README chart use the numeric metric because storage
+spelling is not a geographic key.
 
 ## Metric invariants
 
@@ -56,6 +67,13 @@ with the evidence-bounded phrase “source-provided id.”
 - Duplicate `duplicate_row_excess_count` means rows beyond the first within
   each repeated group; `rows_in_duplicate_groups` includes every row in those
   groups.
+- Every valid snapshot coordinate must use the bounded canonical decimal
+  grammar and be exactly representable at E7 precision.
+  `coordinate_e7_unrepresentable_count` is a contract failure, rather than
+  silently normalizing an unsupported token or rounding a value for grouping.
+- Canonical E7 equality is geometric co-location at the source precision, not
+  evidence that two source records describe the same entity. Co-located
+  records remain distinct at the source-provided `id` grain.
 - Invalid population counts exclude blanks because this source explicitly
   permits missing population; populated values must be finite and
   non-negative.

@@ -100,10 +100,10 @@ class VisualGenerationTests(unittest.TestCase):
                     6_735,
                 ),
                 ChartObservation(
-                    "grain.repeated_coordinates",
-                    "Repeated coordinates (excess rows)",
-                    136,
-                    3_043,
+                    "grain.repeated_coordinate_e7",
+                    "Repeated canonical coordinates (excess rows)",
+                    137,
+                    3_065,
                 ),
             ),
         )
@@ -137,7 +137,7 @@ class VisualGenerationTests(unittest.TestCase):
             "Missing admin name",
             "Missing population",
             "Repeated city/country/admin (excess rows)",
-            "Repeated coordinates (excess rows)",
+            "Repeated canonical coordinates (excess rows)",
         )
         positions = [chart.index(label) for label in expected_labels]
         self.assertEqual(positions, sorted(positions))
@@ -145,7 +145,7 @@ class VisualGenerationTests(unittest.TestCase):
             "316 · 0.71%",
             "307 · 0.69%",
             "301 · 0.67%",
-            "136 · 0.30%",
+            "137 · 0.31%",
         ):
             self.assertIn(direct_label, chart)
         self.assertIn("n = 44,691 profiled rows", chart)

@@ -14,22 +14,29 @@ import hashlib
 import io
 import json
 import os
+import re
 import secrets
 import stat
 import sys
 from collections import Counter, defaultdict
-from collections.abc import Sequence
+from collections.abc import Hashable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, DecimalException, InvalidOperation
 from pathlib import Path
-from typing import Any, BinaryIO, Final
+from typing import Any, BinaryIO, Final, TypeVar
 
 from urbanlens import __version__
 
 MANIFEST_SCHEMA: Final = "urbanlens.data-quality-manifest"
-MANIFEST_SCHEMA_VERSION: Final = 2
+MANIFEST_SCHEMA_VERSION: Final = 3
 RATE_SCALE: Final = 1_000_000
+COORDINATE_SCALE: Final = 10_000_000
+MAX_COORDINATE_TOKEN_CHARACTERS: Final = 32
+COORDINATE_TOKEN_PATTERN: Final = re.compile(
+    r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]{1,7})?",
+    flags=re.ASCII,
+)
 MAX_DATASET_BYTES: Final = 16 * 1024 * 1024
 MAX_DATASET_ROWS: Final = 50_000
 MAX_DATASET_COLUMNS: Final = 32
@@ -40,6 +47,8 @@ EXIT_SUCCESS: Final = 0
 EXIT_CONTRACT_FAILED: Final = 1
 EXIT_INPUT_ERROR: Final = 3
 EXIT_OUTPUT_ERROR: Final = 4
+
+_KeyT = TypeVar("_KeyT", bound=Hashable)
 
 
 @dataclass(frozen=True)
@@ -115,9 +124,7 @@ def _rate_ppm(count: int, denominator: int) -> int:
     return (count * RATE_SCALE + denominator // 2) // denominator
 
 
-def _duplicate_metrics(
-    values: Counter[tuple[str, ...]] | Counter[str],
-) -> dict[str, int]:
+def _duplicate_metrics(values: Counter[_KeyT]) -> dict[str, int]:
     duplicate_counts = [count for count in values.values() if count > 1]
     return {
         "duplicate_group_count": len(duplicate_counts),
@@ -138,6 +145,51 @@ def _decimal_is_in_range(value: str, lower: Decimal, upper: Decimal) -> bool:
     except InvalidOperation:
         return False
     return parsed.is_finite() and lower <= parsed <= upper
+
+
+def _canonical_coordinate_e7(
+    latitude: str,
+    longitude: str,
+) -> tuple[int, int] | None:
+    """Return lossless E7 coordinates, with dateline and pole aliases merged."""
+
+    if (
+        len(latitude) > MAX_COORDINATE_TOKEN_CHARACTERS
+        or len(longitude) > MAX_COORDINATE_TOKEN_CHARACTERS
+        or COORDINATE_TOKEN_PATTERN.fullmatch(latitude) is None
+        or COORDINATE_TOKEN_PATTERN.fullmatch(longitude) is None
+    ):
+        return None
+    try:
+        parsed_latitude = Decimal(latitude)
+        parsed_longitude = Decimal(longitude)
+        if not (
+            parsed_latitude.is_finite()
+            and Decimal(-90) <= parsed_latitude <= Decimal(90)
+            and parsed_longitude.is_finite()
+            and Decimal(-180) <= parsed_longitude <= Decimal(180)
+        ):
+            return None
+
+        scaled_latitude = parsed_latitude * COORDINATE_SCALE
+        scaled_longitude = parsed_longitude * COORDINATE_SCALE
+        integral_latitude = scaled_latitude.to_integral_value()
+        integral_longitude = scaled_longitude.to_integral_value()
+        if (
+            scaled_latitude != integral_latitude
+            or scaled_longitude != integral_longitude
+        ):
+            return None
+        latitude_e7 = int(integral_latitude)
+        longitude_e7 = int(integral_longitude)
+    except (DecimalException, ValueError, OverflowError):
+        return None
+
+    if longitude_e7 == 180 * COORDINATE_SCALE:
+        longitude_e7 = -180 * COORDINATE_SCALE
+    if abs(latitude_e7) == 90 * COORDINATE_SCALE:
+        longitude_e7 = 0
+    return latitude_e7, longitude_e7
 
 
 def _valid_population(value: str) -> bool:
@@ -373,7 +425,8 @@ def _profile(
     }
     id_counts: Counter[str] = Counter()
     composite_counts: Counter[tuple[str, ...]] = Counter()
-    coordinate_counts: Counter[tuple[str, ...]] = Counter()
+    coordinate_token_counts: Counter[tuple[str, ...]] = Counter()
+    coordinate_e7_counts: Counter[tuple[int, int]] = Counter()
     exact_without_id_counts: Counter[tuple[str, ...]] = Counter()
     iso2_to_iso3: defaultdict[str, set[str]] = defaultdict(set)
     iso2_to_country: defaultdict[str, set[str]] = defaultdict(set)
@@ -386,18 +439,20 @@ def _profile(
     invalid_id_format_count = 0
     invalid_capital_count = 0
     non_ascii_city_ascii_count = 0
+    coordinate_e7_unrepresentable_count = 0
     profiled_rows = 0
 
     for row in rows:
         if len(row) != len(header):
             continue
         profiled_rows += 1
-        record = {
-            column: row[index].strip()
+        raw_record = {
+            column: row[index]
             if (index := header_positions.get(column)) is not None
             else ""
             for column in contract.columns
         }
+        record = {column: value.strip() for column, value in raw_record.items()}
 
         for column, value in record.items():
             if value == "":
@@ -407,7 +462,15 @@ def _profile(
         identifier = record["id"]
         id_counts[identifier] += 1
         composite_counts[(record["city"], record["country"], record["admin_name"])] += 1
-        coordinate_counts[(record["lat"], record["lng"])] += 1
+        coordinate_token_counts[(record["lat"], record["lng"])] += 1
+        canonical_coordinate = _canonical_coordinate_e7(
+            raw_record["lat"],
+            raw_record["lng"],
+        )
+        if canonical_coordinate is None:
+            coordinate_e7_unrepresentable_count += 1
+        else:
+            coordinate_e7_counts[canonical_coordinate] += 1
         exact_without_id_counts[
             tuple(record[column] for column in contract.columns if column != "id")
         ] += 1
@@ -436,7 +499,8 @@ def _profile(
 
     id_duplicates = _duplicate_metrics(id_counts)
     composite_duplicates = _duplicate_metrics(composite_counts)
-    coordinate_duplicates = _duplicate_metrics(coordinate_counts)
+    coordinate_token_duplicates = _duplicate_metrics(coordinate_token_counts)
+    coordinate_e7_duplicates = _duplicate_metrics(coordinate_e7_counts)
     exact_without_id_duplicates = _duplicate_metrics(exact_without_id_counts)
 
     iso2_to_iso3_conflicts = {
@@ -453,7 +517,8 @@ def _profile(
         },
         "duplicates": {
             "city_country_admin": composite_duplicates,
-            "coordinates": coordinate_duplicates,
+            "coordinate_e7": coordinate_e7_duplicates,
+            "coordinate_tokens": coordinate_token_duplicates,
             "exact_rows_excluding_id": exact_without_id_duplicates,
             "id": id_duplicates,
         },
@@ -467,6 +532,9 @@ def _profile(
         "profiled_rows": profiled_rows,
         "row_width_mismatch_count": row_width_mismatch_count,
         "validity": {
+            "coordinate_e7_unrepresentable_count": (
+                coordinate_e7_unrepresentable_count
+            ),
             "invalid_capital_value_count": invalid_capital_count,
             "invalid_id_format_count": invalid_id_format_count,
             "invalid_iso2_format_count": invalid_iso2_count,
@@ -524,6 +592,11 @@ def audit_capture(
                 "longitude": validity["invalid_longitude_count"],
             },
             {"latitude": 0, "longitude": 0},
+        ),
+        _check(
+            "coordinates.e7_unrepresentable",
+            validity["coordinate_e7_unrepresentable_count"],
+            0,
         ),
         _check(
             "population.invalid_nonblank_values",
@@ -599,11 +672,11 @@ def audit_capture(
             ),
         ),
         _observation(
-            "grain.repeated_coordinates",
-            count=duplicates["coordinates"]["duplicate_row_excess_count"],
+            "grain.repeated_coordinate_e7",
+            count=duplicates["coordinate_e7"]["duplicate_row_excess_count"],
             profiled_rows=profiled_rows,
             severity="medium",
-            interpretation="Coordinates alone are not a safe row key.",
+            interpretation=("Canonical E7 coordinates alone are not a safe row key."),
         ),
         _observation(
             "country.exact_label_variants_per_iso2",

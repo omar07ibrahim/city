@@ -59,7 +59,8 @@ The initial read-only profile found:
 | Missing admin name | 316 (0.71%) | regional joins cannot assume complete coverage |
 | Blank capital classification | 33,553 (75.08%) | blank means “not marked as a capital,” not corrupted data |
 | Repeated city/country/admin rows beyond the first | 301 | names are not a safe key |
-| Repeated coordinate rows beyond the first | 136 | coordinates are not a safe key |
+| Repeated coordinate-token rows beyond the first | 136 | storage spelling is not a geographic equality rule |
+| Repeated canonical E7 coordinate rows beyond the first | 137 | physical coordinates are not a safe entity key |
 | Exact duplicates excluding `id` | 0 | repeated names/coordinates still differ in another field |
 | ISO2 codes mapping to multiple ISO3 codes | 0 | the code-pair relationship is structurally consistent |
 | Exact country-label variants within an ISO2 | 1 | normalize labels deliberately before grouping |
@@ -82,9 +83,11 @@ byte-for-byte.
 
 Missing admin name is the largest of this predeclared comparable set at 316
 rows (0.71%), followed by missing population at 307 (0.69%), repeated
-city/country/admin excess at 301 (0.67%), and repeated-coordinate excess at
-136 (0.30%). All rates use the same 44,691-row denominator; categories can
-overlap and must not be summed as affected rows.
+city/country/admin excess at 301 (0.67%), and repeated canonical-coordinate
+excess at 137 (0.31%). All rates use the same 44,691-row denominator;
+categories can overlap and must not be summed as affected rows. The raw
+coordinate-token count is 136: numeric E7 canonicalization finds one
+additional co-location hidden by different decimal spellings.
 
 ### Implemented audit and freshness workflow
 
@@ -164,7 +167,7 @@ raw source row, or source label, so independent runs are byte-for-byte
 comparable. Row-derived rates are integer parts per million rather than
 floating-point values; non-row observations do not publish a false row rate.
 
-The [manifest v2 contract](docs/data-quality-manifest-v2.md) documents the
+The [manifest v3 contract](docs/data-quality-manifest-v3.md) documents the
 schema, invariants, canonical encoding, and exit codes. A passing audit means
 the frozen file satisfies this structural contract; it does not certify that
 the historical source values are current or geopolitically authoritative.

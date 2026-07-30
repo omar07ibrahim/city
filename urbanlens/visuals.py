@@ -99,13 +99,13 @@ OBSERVATION_SPECS: Final = (
         None,
     ),
     (
-        "grain.repeated_coordinates",
-        "Repeated coordinates (excess rows)",
+        "grain.repeated_coordinate_e7",
+        "Repeated canonical coordinates (excess rows)",
         (
             "quality",
             "metrics",
             "duplicates",
-            "coordinates",
+            "coordinate_e7",
             "duplicate_row_excess_count",
         ),
         None,

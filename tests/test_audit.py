@@ -67,8 +67,20 @@ class SnapshotAuditTests(unittest.TestCase):
             301,
         )
         self.assertEqual(
-            metrics["duplicates"]["coordinates"]["duplicate_row_excess_count"],
+            metrics["duplicates"]["coordinate_tokens"]["duplicate_row_excess_count"],
             136,
+        )
+        self.assertEqual(
+            metrics["duplicates"]["coordinate_e7"]["duplicate_group_count"],
+            106,
+        )
+        self.assertEqual(
+            metrics["duplicates"]["coordinate_e7"]["duplicate_row_excess_count"],
+            137,
+        )
+        self.assertEqual(
+            metrics["validity"]["coordinate_e7_unrepresentable_count"],
+            0,
         )
         self.assertEqual(
             metrics["duplicates"]["exact_rows_excluding_id"][
@@ -93,7 +105,7 @@ class SnapshotAuditTests(unittest.TestCase):
             decoded["manifest"]["canonicalization"],
             "UTF-8, sorted object keys, two-space indent, LF, final newline",
         )
-        self.assertEqual(decoded["manifest"]["schema_version"], 2)
+        self.assertEqual(decoded["manifest"]["schema_version"], 3)
 
     def test_manifest_contains_no_absolute_repository_path(self) -> None:
         self.assertNotIn(
@@ -211,6 +223,100 @@ class FailureDetectionTests(unittest.TestCase):
             manifest["quality"]["metrics"]["validity"]["invalid_latitude_count"],
             1,
         )
+
+    def test_numeric_coordinate_metric_merges_equivalent_decimal_tokens(
+        self,
+    ) -> None:
+        rows = [row.copy() for row in self.real_rows[:2]]
+        latitude_index = self.header.index("lat")
+        longitude_index = self.header.index("lng")
+        rows[0][latitude_index], rows[0][longitude_index] = "28.5700", "77.3200"
+        rows[1][latitude_index], rows[1][longitude_index] = "28.57", "77.32"
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = self._write_rows(Path(directory), rows)
+            metrics = audit_dataset(path)["quality"]["metrics"]
+
+        self.assertEqual(
+            metrics["duplicates"]["coordinate_tokens"]["duplicate_row_excess_count"],
+            0,
+        )
+        self.assertEqual(
+            metrics["duplicates"]["coordinate_e7"]["duplicate_row_excess_count"],
+            1,
+        )
+
+    def test_numeric_coordinate_metric_canonicalizes_dateline_and_poles(
+        self,
+    ) -> None:
+        rows = [row.copy() for row in self.real_rows]
+        rows.append(self.real_rows[0].copy())
+        latitude_index = self.header.index("lat")
+        longitude_index = self.header.index("lng")
+        id_index = self.header.index("id")
+        coordinates = (
+            ("90", "180"),
+            ("90", "-23"),
+            ("0", "-180"),
+            ("-0.0000", "180"),
+        )
+        for index, (row, coordinate) in enumerate(
+            zip(rows, coordinates, strict=True),
+            start=1,
+        ):
+            row[latitude_index], row[longitude_index] = coordinate
+            row[id_index] = f"9{index:09d}"
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = self._write_rows(Path(directory), rows)
+            duplicates = audit_dataset(path)["quality"]["metrics"]["duplicates"]
+
+        self.assertEqual(
+            duplicates["coordinate_tokens"]["duplicate_group_count"],
+            0,
+        )
+        self.assertEqual(
+            duplicates["coordinate_e7"]["duplicate_group_count"],
+            2,
+        )
+        self.assertEqual(
+            duplicates["coordinate_e7"]["duplicate_row_excess_count"],
+            2,
+        )
+
+    def test_noncanonical_coordinate_tokens_fail_spatial_readiness(self) -> None:
+        invalid_tokens = (
+            "0.00000001",
+            "1e0",
+            "1_0",
+            "+1",
+            "00.1",
+            " 1",
+            "\N{ARABIC-INDIC DIGIT ONE}",
+            "0." + "0" * 31,
+        )
+        for invalid_token in invalid_tokens:
+            with self.subTest(token=invalid_token):
+                rows = [row.copy() for row in self.real_rows[:1]]
+                rows[0][self.header.index("lat")] = invalid_token
+
+                with tempfile.TemporaryDirectory() as directory:
+                    path = self._write_rows(Path(directory), rows)
+                    manifest = audit_dataset(path)
+
+                self.assertEqual(
+                    self._check_status(
+                        manifest,
+                        "coordinates.e7_unrepresentable",
+                    ),
+                    "fail",
+                )
+                self.assertEqual(
+                    manifest["quality"]["metrics"]["validity"][
+                        "coordinate_e7_unrepresentable_count"
+                    ],
+                    1,
+                )
 
     def test_missing_column_and_short_row_are_detected(self) -> None:
         shortened_header = self.header[:-1]

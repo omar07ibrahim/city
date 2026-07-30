@@ -12,9 +12,13 @@ the same denominator?**
 The supported takeaway is deliberately narrow. Missing admin name is the
 largest of the four observations at 316 rows (0.71%); missing population is
 307 (0.69%), repeated city/country/admin excess is 301 (0.67%), and repeated
-coordinate excess is 136 (0.30%). All use the same 44,691 profiled-row
-denominator. Categories can overlap, so their counts must not be added into a
-total affected-row count.
+canonical-coordinate excess is 137 (0.31%). All use the same 44,691
+profiled-row denominator. Categories can overlap, so their counts must not be
+added into a total affected-row count.
+
+The coordinate bar uses canonical E7 numeric equality, not textual equality.
+The corresponding raw-token metric is 136 excess rows; different decimal
+spellings explain the one-row difference.
 
 Blank capital classification is excluded because blank is an allowed
 source-provided semantic state rather than the same kind of missing-data
@@ -75,7 +79,7 @@ All visuals are bound to:
   `de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18`;
 - profiled rows: 44,691;
 - checked evidence: `artifacts/data_quality/train.quality.json`;
-- manifest schema: `urbanlens.data-quality-manifest`, version 2.
+- manifest schema: `urbanlens.data-quality-manifest`, version 3.
 
 Before rendering in memory, the generator actually invokes
 `python3 -m urbanlens.audit train.csv` and requires its stdout bytes to equal

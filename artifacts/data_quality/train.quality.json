@@ -15,9 +15,9 @@
   "manifest": {
     "canonicalization": "UTF-8, sorted object keys, two-space indent, LF, final newline",
     "schema": "urbanlens.data-quality-manifest",
-    "schema_version": 2,
+    "schema_version": 3,
     "tool": "python3 -m urbanlens.audit",
-    "tool_version": "0.2.0"
+    "tool_version": "0.3.0"
   },
   "quality": {
     "contract_checks": [
@@ -122,6 +122,12 @@
       {
         "actual": 0,
         "expected": 0,
+        "id": "coordinates.e7_unrepresentable",
+        "status": "pass"
+      },
+      {
+        "actual": 0,
+        "expected": 0,
         "id": "population.invalid_nonblank_values",
         "status": "pass"
       },
@@ -182,7 +188,12 @@
           "duplicate_row_excess_count": 301,
           "rows_in_duplicate_groups": 552
         },
-        "coordinates": {
+        "coordinate_e7": {
+          "duplicate_group_count": 106,
+          "duplicate_row_excess_count": 137,
+          "rows_in_duplicate_groups": 243
+        },
+        "coordinate_tokens": {
           "duplicate_group_count": 105,
           "duplicate_row_excess_count": 136,
           "rows_in_duplicate_groups": 241
@@ -251,6 +262,7 @@
       },
       "profiled_rows": 44691,
       "validity": {
+        "coordinate_e7_unrepresentable_count": 0,
         "invalid_capital_value_count": 0,
         "invalid_id_format_count": 0,
         "invalid_iso2_format_count": 0,
@@ -291,10 +303,10 @@
         "severity": "medium"
       },
       {
-        "count": 136,
-        "id": "grain.repeated_coordinates",
-        "interpretation": "Coordinates alone are not a safe row key.",
-        "row_rate_ppm": 3043,
+        "count": 137,
+        "id": "grain.repeated_coordinate_e7",
+        "interpretation": "Canonical E7 coordinates alone are not a safe row key.",
+        "row_rate_ppm": 3065,
         "severity": "medium"
       },
       {
@@ -307,8 +319,8 @@
     "status": "pass",
     "summary": {
       "failed": 0,
-      "passed": 15,
-      "total": 15
+      "passed": 16,
+      "total": 16
     }
   },
   "schema": {
