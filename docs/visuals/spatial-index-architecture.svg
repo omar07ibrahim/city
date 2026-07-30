@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="860" viewBox="0 0 1500 860" fill="#172033" role="img" aria-labelledby="architecture-title architecture-description">
+  <title id="architecture-title">Implemented exact nearest-city architecture</title>
+  <desc id="architecture-description">A six-stage implemented workflow from one audited source capture through strict E7 parsing, a balanced unit-sphere kd-tree, conservative AABB pruning, an optional full-scan oracle, and a bounded canonical receipt.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, Liberation Sans, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace; }
+  </style>
+  <rect width="1500" height="860" fill="#FFFFFF"/>
+  <rect x="28" y="28" width="1444" height="804" rx="22" fill="#FFFFFF" stroke="#D7E0EA" stroke-width="2"/>
+  <text x="58" y="82" font-size="30" font-weight="700">Implemented exact nearest-city architecture</text>
+  <text x="58" y="116" font-size="16" fill="#536174">One frozen byte capture flows through audited normalization, exact acceleration, optional proof, and a bounded receipt</text>
+  <rect x="1168" y="62" width="260" height="38" rx="19" fill="#E7F5ED" stroke="#247A4D" stroke-width="1"/>
+  <text x="1298" y="87" text-anchor="middle" font-size="13" font-weight="700" fill="#155A36">CURRENT · IMPLEMENTED</text>
+  <rect x="58" y="150" width="1370" height="58" rx="12" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <text class="mono" x="82" y="176" font-size="13" font-weight="700" fill="#173B5F">SOURCE</text>
+  <text x="152" y="176" font-size="14" fill="#172033">train.csv · 44,691 rows · 4,734,682 bytes</text>
+  <text class="mono" x="82" y="197" font-size="12" fill="#536174">SHA-256 de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18</text>
+  <text class="mono" x="1404" y="184" text-anchor="end" font-size="12" fill="#536174">urbanlens.data-quality-manifest v3</text>
+  <rect x="45" y="242" width="218" height="396" rx="15" fill="#E8F1FA" stroke="#2563A6" stroke-width="2"/>
+  <rect x="63" y="262" width="46" height="28" rx="14" fill="#2563A6"/>
+  <text class="mono" x="86" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">01</text>
+  <text x="63" y="330" font-size="14" font-weight="700">Single capture + audit</text>
+  <line x1="63" y1="351" x2="245" y2="351" stroke="#2563A6" stroke-opacity="0.35"/>
+  <circle cx="68" cy="388" r="3" fill="#2563A6"/>
+  <text x="79" y="393" font-size="13" fill="#172033">regular file · no-follow</text>
+  <circle cx="68" cy="436" r="3" fill="#2563A6"/>
+  <text x="79" y="441" font-size="13" fill="#172033">same bytes: audit + rows</text>
+  <circle cx="68" cy="484" r="3" fill="#2563A6"/>
+  <text x="79" y="489" font-size="13" fill="#172033">manifest v3 · PASS</text>
+  <circle cx="68" cy="532" r="3" fill="#2563A6"/>
+  <text x="79" y="537" font-size="13" fill="#172033">44,691 source rows</text>
+  <text class="mono" x="63" y="610" font-size="10" fill="#536174">audit + capture</text>
+  <line x1="265" y1="440" x2="276" y2="440" stroke="#536174" stroke-width="2"/>
+  <polygon points="276,440 269,435 269,445" fill="#536174"/>
+  <rect x="281" y="242" width="218" height="396" rx="15" fill="#E8F1FA" stroke="#2563A6" stroke-width="2"/>
+  <rect x="299" y="262" width="46" height="28" rx="14" fill="#2563A6"/>
+  <text class="mono" x="322" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">02</text>
+  <text x="299" y="330" font-size="14" font-weight="700">Strict E7 boundary</text>
+  <line x1="299" y1="351" x2="481" y2="351" stroke="#2563A6" stroke-opacity="0.35"/>
+  <circle cx="304" cy="388" r="3" fill="#2563A6"/>
+  <text x="315" y="393" font-size="13" fill="#172033">ASCII decimal · ≤ 7 dp</text>
+  <circle cx="304" cy="436" r="3" fill="#2563A6"/>
+  <text x="315" y="441" font-size="13" fill="#172033">signed zero → 0</text>
+  <circle cx="304" cy="484" r="3" fill="#2563A6"/>
+  <text x="315" y="489" font-size="13" fill="#172033">+180 → -180 · poles → 0</text>
+  <circle cx="304" cy="532" r="3" fill="#2563A6"/>
+  <text x="315" y="537" font-size="13" fill="#172033">scale 10,000,000</text>
+  <text class="mono" x="299" y="610" font-size="10" fill="#536174">integer boundary</text>
+  <line x1="501" y1="440" x2="512" y2="440" stroke="#536174" stroke-width="2"/>
+  <polygon points="512,440 505,435 505,445" fill="#536174"/>
+  <rect x="517" y="242" width="218" height="396" rx="15" fill="#E2F4F1" stroke="#087F73" stroke-width="2"/>
+  <rect x="535" y="262" width="46" height="28" rx="14" fill="#087F73"/>
+  <text class="mono" x="558" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">03</text>
+  <text x="535" y="330" font-size="14" font-weight="700">Balanced sphere kd-tree</text>
+  <line x1="535" y1="351" x2="717" y2="351" stroke="#087F73" stroke-opacity="0.35"/>
+  <circle cx="540" cy="388" r="3" fill="#087F73"/>
+  <text x="551" y="393" font-size="13" fill="#172033">3D unit-sphere vectors</text>
+  <circle cx="540" cy="436" r="3" fill="#087F73"/>
+  <text x="551" y="441" font-size="13" fill="#172033">greatest-span axis</text>
+  <circle cx="540" cy="484" r="3" fill="#087F73"/>
+  <text x="551" y="489" font-size="13" fill="#172033">lower median · stable ID</text>
+  <circle cx="540" cy="532" r="3" fill="#087F73"/>
+  <text x="551" y="537" font-size="13" fill="#172033">depth 16 · 44,691 nodes</text>
+  <text class="mono" x="535" y="610" font-size="10" fill="#536174">unit-sphere kd-tree</text>
+  <line x1="737" y1="440" x2="748" y2="440" stroke="#536174" stroke-width="2"/>
+  <polygon points="748,440 741,435 741,445" fill="#536174"/>
+  <rect x="753" y="242" width="218" height="396" rx="15" fill="#E2F4F1" stroke="#087F73" stroke-width="2"/>
+  <rect x="771" y="262" width="46" height="28" rx="14" fill="#087F73"/>
+  <text class="mono" x="794" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">04</text>
+  <text x="771" y="330" font-size="14" font-weight="700">Conservative AABB</text>
+  <line x1="771" y1="351" x2="953" y2="351" stroke="#087F73" stroke-opacity="0.35"/>
+  <circle cx="776" cy="388" r="3" fill="#087F73"/>
+  <text x="787" y="393" font-size="13" fill="#172033">down-rounded lower bound</text>
+  <circle cx="776" cy="436" r="3" fill="#087F73"/>
+  <text x="787" y="441" font-size="13" fill="#172033">prune only bound &gt; kth</text>
+  <circle cx="776" cy="484" r="3" fill="#087F73"/>
+  <text x="787" y="489" font-size="13" fill="#172033">raw chord² + source_id</text>
+  <circle cx="776" cy="532" r="3" fill="#087F73"/>
+  <text x="787" y="537" font-size="13" fill="#172033">exact · worst case O(n)</text>
+  <text class="mono" x="771" y="610" font-size="10" fill="#536174">strict &gt; pruning</text>
+  <line x1="973" y1="440" x2="984" y2="440" stroke="#536174" stroke-width="2"/>
+  <polygon points="984,440 977,435 977,445" fill="#536174"/>
+  <rect x="989" y="242" width="218" height="396" rx="15" fill="#FBF1D8" stroke="#B7791F" stroke-width="2"/>
+  <rect x="1007" y="262" width="46" height="28" rx="14" fill="#6F4A0C"/>
+  <text class="mono" x="1030" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">05</text>
+  <text x="1007" y="330" font-size="14" font-weight="700">Optional full-scan oracle</text>
+  <line x1="1007" y1="351" x2="1189" y2="351" stroke="#B7791F" stroke-opacity="0.35"/>
+  <circle cx="1012" cy="388" r="3" fill="#B7791F"/>
+  <text x="1023" y="393" font-size="13" fill="#172033">scan 44,691 records</text>
+  <circle cx="1012" cy="436" r="3" fill="#B7791F"/>
+  <text x="1023" y="441" font-size="13" fill="#172033">ordered rank-key proof</text>
+  <circle cx="1012" cy="484" r="3" fill="#B7791F"/>
+  <text x="1023" y="489" font-size="13" fill="#172033">--verify → match</text>
+  <circle cx="1012" cy="532" r="3" fill="#B7791F"/>
+  <text x="1023" y="537" font-size="13" fill="#172033">mismatch → fail closed</text>
+  <text class="mono" x="1007" y="610" font-size="10" fill="#536174">explicit --verify</text>
+  <line x1="1209" y1="440" x2="1220" y2="440" stroke="#536174" stroke-width="2"/>
+  <polygon points="1220,440 1213,435 1213,445" fill="#536174"/>
+  <rect x="1225" y="242" width="218" height="396" rx="15" fill="#E7F5ED" stroke="#247A4D" stroke-width="2"/>
+  <rect x="1243" y="262" width="46" height="28" rx="14" fill="#247A4D"/>
+  <text class="mono" x="1266" y="281" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">06</text>
+  <text x="1243" y="330" font-size="14" font-weight="700">Canonical JSON receipt</text>
+  <line x1="1243" y1="351" x2="1425" y2="351" stroke="#247A4D" stroke-opacity="0.35"/>
+  <circle cx="1248" cy="388" r="3" fill="#247A4D"/>
+  <text x="1259" y="393" font-size="13" fill="#172033">schema v1 · sorted keys</text>
+  <circle cx="1248" cy="436" r="3" fill="#247A4D"/>
+  <text x="1259" y="441" font-size="13" fill="#172033">ASCII · LF · final newline</text>
+  <circle cx="1248" cy="484" r="3" fill="#247A4D"/>
+  <text x="1259" y="489" font-size="13" fill="#172033">≤ 256 KiB before write</text>
+  <circle cx="1248" cy="532" r="3" fill="#247A4D"/>
+  <text x="1259" y="537" font-size="13" fill="#172033">no path · host · time</text>
+  <text class="mono" x="1243" y="610" font-size="10" fill="#536174">receipt schema v1</text>
+  <rect x="58" y="684" width="1370" height="112" rx="12" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="82" y="716" font-size="14" font-weight="700" fill="#173B5F">INDEX IDENTITY</text>
+  <text class="mono" x="1404" y="716" text-anchor="end" font-size="11" fill="#536174">balanced-unit-sphere-kd-tree v1</text>
+  <text x="82" y="746" font-size="14" fill="#172033">44,554 unique numeric locations · 106 collision groups · 137 excess records · max multiplicity 7</text>
+  <text class="mono" x="82" y="774" font-size="12" fill="#536174">topology SHA-256 5ba1bb95e167d7bdf3b9e28e8e211756eab48888c281c215d1dccf801db3cb72</text>
+  <text x="1404" y="748" text-anchor="end" font-size="13" fill="#536174">mean sphere radius 6,371,008.8 m</text>
+  <text x="1404" y="774" text-anchor="end" font-size="13" fill="#536174">exact results; acceleration is not an approximation</text>
+</svg>

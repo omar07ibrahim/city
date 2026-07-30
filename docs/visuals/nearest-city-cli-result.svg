@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" fill="#172033" role="img" aria-labelledby="cli-title cli-description">
+  <title id="cli-title">Actual verified nearest-city CLI result</title>
+  <desc id="cli-description">A terminal-style rendering of selected fields parsed from the actual nearest-city subprocess receipt for latitude minus 11.1 and longitude minus 77.6. It shows two zero-distance results, one third result, traversal counts, oracle match, and exit code zero.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, Liberation Sans, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace; }
+  </style>
+  <rect width="1400" height="900" fill="#FFFFFF"/>
+  <rect x="34" y="30" width="1332" height="840" rx="22" fill="#FFFFFF" stroke="#D7E0EA" stroke-width="2"/>
+  <text x="66" y="82" font-size="30" font-weight="700">Actual verified nearest-city CLI result</text>
+  <text x="66" y="116" font-size="16" fill="#536174">Selected fields parsed from the real canonical stdout receipt and cross-checked against the tracked phase-one evidence</text>
+  <rect x="66" y="150" width="1268" height="650" rx="14" fill="#173B5F" stroke="#173B5F" stroke-width="1"/>
+  <circle cx="94" cy="178" r="6" fill="#B43A3A"/>
+  <circle cx="114" cy="178" r="6" fill="#B7791F"/>
+  <circle cx="134" cy="178" r="6" fill="#247A4D"/>
+  <text class="mono" x="700" y="183" text-anchor="middle" font-size="12" fill="#C8D6E5">urbanlens · canonical receipt</text>
+  <text class="mono" x="92" y="224" font-size="13" fill="#8FD3FF">$ python3 -m urbanlens.nearest --dataset train.csv --lat -11.1 --lon -77.6 --k 3 --verify</text>
+  <line x1="92" y1="247" x2="1308" y2="247" stroke="#365979" stroke-width="1"/>
+  <text class="mono" x="92" y="280" font-size="12" fill="#9DB4C9">stdout  selected canonical JSON fields</text>
+  <text class="mono" x="92" y="312" font-size="14" fill="#FFFFFF">receipt.schema   urbanlens.nearest-city-receipt v1</text>
+  <text class="mono" x="92" y="340" font-size="14" fill="#FFFFFF">source.sha256    de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18</text>
+  <text class="mono" x="92" y="368" font-size="14" fill="#FFFFFF">index.topology   5ba1bb95e167d7bdf3b9e28e8e211756eab48888c281c215d1dccf801db3cb72</text>
+  <text class="mono" x="92" y="396" font-size="14" fill="#FFFFFF">query             lat=-11.1 · lon=-77.6 · k=3</text>
+  <text class="mono" x="92" y="424" font-size="14" fill="#9BE7D8">proof.accelerated evaluated=16 · pruned=44,675 · visited=30</text>
+  <text class="mono" x="92" y="452" font-size="14" fill="#9BE7D8">proof.oracle      MATCH · evaluated=44,691</text>
+  <line x1="92" y1="478" x2="1308" y2="478" stroke="#365979" stroke-width="1"/>
+  <text class="mono" x="92" y="510" font-size="12" font-weight="700" fill="#9DB4C9">rank</text>
+  <text class="mono" x="152" y="510" font-size="12" font-weight="700" fill="#9DB4C9">source_id</text>
+  <text class="mono" x="318" y="510" font-size="12" font-weight="700" fill="#9DB4C9">city (ISO2)</text>
+  <text class="mono" x="650" y="510" font-size="12" font-weight="700" fill="#9DB4C9">canonical E7 coordinate</text>
+  <text class="mono" x="1120" y="510" font-size="12" font-weight="700" fill="#9DB4C9">distance</text>
+  <rect x="88" y="522" width="1224" height="48" rx="6" fill="#1E486B"/>
+  <text class="mono" x="100" y="553" font-size="14" fill="#FFFFFF">1</text>
+  <text class="mono" x="152" y="553" font-size="14" fill="#FFFFFF">1604316784</text>
+  <text class="mono" x="318" y="553" font-size="14" fill="#FFFFFF">Huacho (PE)</text>
+  <text class="mono" x="650" y="553" font-size="14" fill="#FFFFFF">-111000000, -776000000</text>
+  <text class="mono" x="1120" y="553" font-size="14" fill="#FFFFFF">0 m</text>
+  <rect x="88" y="584" width="1224" height="48" rx="6" fill="#1A4262"/>
+  <text class="mono" x="100" y="615" font-size="14" fill="#FFFFFF">2</text>
+  <text class="mono" x="152" y="615" font-size="14" fill="#FFFFFF">1604503366</text>
+  <text class="mono" x="318" y="615" font-size="14" fill="#FFFFFF">Huaura (PE)</text>
+  <text class="mono" x="650" y="615" font-size="14" fill="#FFFFFF">-111000000, -776000000</text>
+  <text class="mono" x="1120" y="615" font-size="14" fill="#FFFFFF">0 m</text>
+  <rect x="88" y="646" width="1224" height="48" rx="6" fill="#1E486B"/>
+  <text class="mono" x="100" y="677" font-size="14" fill="#FFFFFF">3</text>
+  <text class="mono" x="152" y="677" font-size="14" fill="#FFFFFF">1604547675</text>
+  <text class="mono" x="318" y="677" font-size="14" fill="#FFFFFF">Barranca (PE)</text>
+  <text class="mono" x="650" y="677" font-size="14" fill="#FFFFFF">-107541000, -777610000</text>
+  <text class="mono" x="1120" y="677" font-size="14" fill="#FFFFFF">42,289 m</text>
+  <text class="mono" x="92" y="758" font-size="12" fill="#9DB4C9">stdout.bytes  2,118 · canonical ASCII JSON · stderr (empty)</text>
+  <rect x="1124" y="818" width="210" height="34" rx="17" fill="#E7F5ED" stroke="#247A4D" stroke-width="1"/>
+  <text class="mono" x="1229" y="841" text-anchor="middle" font-size="13" font-weight="700" fill="#155A36">EXIT CODE 0 · ORACLE MATCH</text>
+  <text x="66" y="840" font-size="13" fill="#536174">Generated only after a second evidence freshness check; no absolute path, host, user, timestamp, or secret is captured.</text>
+</svg>

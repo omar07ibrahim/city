@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" fill="#172033" role="img" aria-labelledby="work-title work-description">
+  <title id="work-title">Exact query work on four real source-bound cases</title>
+  <desc id="work-description">A record-accounting chart showing 105 accelerated evaluations, 178659 record evaluations avoided by pruning, and 178764 full-scan evaluations across four oracle-matched queries, with an explicit worst-case warning.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, Liberation Sans, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace; }
+  </style>
+  <rect width="1400" height="860" fill="#FFFFFF"/>
+  <rect x="34" y="32" width="1332" height="796" rx="22" fill="#FFFFFF" stroke="#D7E0EA" stroke-width="2"/>
+  <text x="66" y="86" font-size="30" font-weight="700">Exact query work on four real source-bound cases</text>
+  <text x="66" y="120" font-size="16" fill="#536174">Traversal accounting from the checked artifact; full-scan results matched for every ordered top-3 result</text>
+  <rect x="66" y="158" width="300" height="122" rx="14" fill="#E8F1FA" stroke="#2563A6" stroke-width="1"/>
+  <text x="88" y="188" font-size="13" font-weight="700" fill="#184A7A">KD-TREE EVALUATIONS</text>
+  <text class="mono" x="88" y="232" font-size="30" font-weight="700">105</text>
+  <text x="88" y="258" font-size="13" fill="#536174">187 nodes visited across 4 queries</text>
+  <rect x="388" y="158" width="300" height="122" rx="14" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="410" y="188" font-size="13" font-weight="700" fill="#173B5F">FULL-SCAN EVALUATIONS</text>
+  <text class="mono" x="410" y="232" font-size="30" font-weight="700">178,764</text>
+  <text x="410" y="258" font-size="13" fill="#536174">44,691 records x 4 exact oracle queries</text>
+  <rect x="710" y="158" width="624" height="122" rx="14" fill="#E7F5ED" stroke="#247A4D" stroke-width="1"/>
+  <text x="734" y="188" font-size="13" font-weight="700" fill="#155A36">AVOIDED RECORD EVALUATIONS</text>
+  <text class="mono" x="734" y="232" font-size="30" font-weight="700">178,659</text>
+  <text x="1068" y="232" font-size="30" font-weight="700" fill="#155A36">99.94%</text>
+  <text x="734" y="258" font-size="13" fill="#536174">Structural work reduction; this is not a latency benchmark</text>
+  <text x="66" y="325" font-size="13" font-weight="700" fill="#536174">QUERY CASE</text>
+  <text x="360" y="325" font-size="13" font-weight="700" fill="#536174">RECORD ACCOUNTING · each row totals 44,691</text>
+  <rect x="1120" y="305" width="14" height="14" rx="2" fill="#2563A6"/>
+  <text x="1142" y="317" font-size="12" fill="#536174">evaluated</text>
+  <rect x="1230" y="305" width="14" height="14" rx="2" fill="#247A4D"/>
+  <text x="1252" y="317" font-size="12" fill="#536174">pruned</text>
+  <text x="66" y="373" font-size="15" font-weight="700">Co-location tie</text>
+  <text class="mono" x="66" y="398" font-size="12" fill="#536174">eval 16 · prune 44,675 · visit 30</text>
+  <rect x="360" y="356" width="890" height="28" rx="5" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <rect x="360" y="356" width="0.3186" height="28" fill="#2563A6"/>
+  <rect x="360.3186" y="356" width="889.6814" height="28" rx="5" fill="#247A4D"/>
+  <text class="mono" x="360" y="406" font-size="12" fill="#536174">16 evaluated</text>
+  <text class="mono" x="1250" y="406" text-anchor="end" font-size="12" fill="#536174">44,675 pruned · 99.96% avoided</text>
+  <text x="66" y="465" font-size="15" font-weight="700">Antimeridian</text>
+  <text class="mono" x="66" y="490" font-size="12" fill="#536174">eval 25 · prune 44,666 · visit 43</text>
+  <rect x="360" y="448" width="890" height="28" rx="5" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <rect x="360" y="448" width="0.4979" height="28" fill="#2563A6"/>
+  <rect x="360.4979" y="448" width="889.5021" height="28" rx="5" fill="#247A4D"/>
+  <text class="mono" x="360" y="498" font-size="12" fill="#536174">25 evaluated</text>
+  <text class="mono" x="1250" y="498" text-anchor="end" font-size="12" fill="#536174">44,666 pruned · 99.94% avoided</text>
+  <text x="66" y="557" font-size="15" font-weight="700">North pole</text>
+  <text class="mono" x="66" y="582" font-size="12" fill="#536174">eval 48 · prune 44,643 · visit 84</text>
+  <rect x="360" y="540" width="890" height="28" rx="5" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <rect x="360" y="540" width="0.9559" height="28" fill="#2563A6"/>
+  <rect x="360.9559" y="540" width="889.0441" height="28" rx="5" fill="#247A4D"/>
+  <text class="mono" x="360" y="590" font-size="12" fill="#536174">48 evaluated</text>
+  <text class="mono" x="1250" y="590" text-anchor="end" font-size="12" fill="#536174">44,643 pruned · 99.89% avoided</text>
+  <text x="66" y="649" font-size="15" font-weight="700">London reference</text>
+  <text class="mono" x="66" y="674" font-size="12" fill="#536174">eval 16 · prune 44,675 · visit 30</text>
+  <rect x="360" y="632" width="890" height="28" rx="5" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <rect x="360" y="632" width="0.3186" height="28" fill="#2563A6"/>
+  <rect x="360.3186" y="632" width="889.6814" height="28" rx="5" fill="#247A4D"/>
+  <text class="mono" x="360" y="682" font-size="12" fill="#536174">16 evaluated</text>
+  <text class="mono" x="1250" y="682" text-anchor="end" font-size="12" fill="#536174">44,675 pruned · 99.96% avoided</text>
+  <line x1="66" y1="738" x2="1334" y2="738" stroke="#D7E0EA" stroke-width="1"/>
+  <rect x="66" y="764" width="8" height="32" rx="4" fill="#B7791F"/>
+  <text x="90" y="778" font-size="14" font-weight="700" fill="#6F4A0C">HONEST LIMIT</text>
+  <text x="90" y="800" font-size="13" fill="#536174">The exact kd-tree may still evaluate all 44,691 records in the worst case; pruning depends on the dataset and query.</text>
+  <text class="mono" x="1334" y="800" text-anchor="end" font-size="11" fill="#536174">source de941def7fac… · topology 5ba1bb95e167…</text>
+</svg>

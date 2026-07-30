@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" fill="#172033" role="img" aria-labelledby="edge-title edge-description">
+  <title id="edge-title">Real geographic edge cases with exact oracle proof</title>
+  <desc id="edge-description">Three source-bound cards show a real zero-distance co-location tie, positive 180 longitude canonicalized to minus 180 at the antimeridian, and longitude collapsed to zero at the north pole. Every accelerated ordered top-three result matches full scan.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, Liberation Sans, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace; }
+  </style>
+  <rect width="1400" height="850" fill="#FFFFFF"/>
+  <rect x="34" y="30" width="1332" height="790" rx="22" fill="#FFFFFF" stroke="#D7E0EA" stroke-width="2"/>
+  <text x="66" y="84" font-size="30" font-weight="700">Real geographic edge cases with exact oracle proof</text>
+  <text x="66" y="118" font-size="16" fill="#536174">Canonical coordinate rules and ordered top-3 matches are exercised against the frozen 44,691-record source</text>
+  <rect x="1130" y="62" width="204" height="38" rx="19" fill="#E7F5ED" stroke="#247A4D" stroke-width="1"/>
+  <text x="1232" y="87" text-anchor="middle" font-size="13" font-weight="700" fill="#155A36">3 / 3 ORACLE MATCH</text>
+  <rect x="66" y="186" width="402" height="532" rx="16" fill="#FFFFFF" stroke="#2563A6" stroke-width="2"/>
+  <rect x="66" y="186" width="402" height="76" rx="15" fill="#E8F1FA"/>
+  <text x="90" y="218" font-size="13" font-weight="700" fill="#184A7A">CASE 1</text>
+  <text x="90" y="245" font-size="20" font-weight="700">Co-location tie</text>
+  <text x="90" y="298" font-size="12" font-weight="700" fill="#536174">REQUESTED</text>
+  <text class="mono" x="90" y="325" font-size="15">(-11.1, -77.6)</text>
+  <text x="90" y="364" font-size="12" font-weight="700" fill="#536174">CANONICAL E7</text>
+  <text class="mono" x="90" y="391" font-size="15">(-111000000, -776000000)</text>
+  <rect x="90" y="412" width="354" height="38" rx="8" fill="#E8F1FA"/>
+  <text x="267" y="437" text-anchor="middle" font-size="13" font-weight="700" fill="#184A7A">EXACT INPUT RETAINED</text>
+  <text x="90" y="486" font-size="12" font-weight="700" fill="#536174">NEAREST REAL RESULT</text>
+  <text x="90" y="516" font-size="17" font-weight="700">Huacho (PE) · 0 m</text>
+  <text class="mono" x="90" y="542" font-size="12" fill="#536174">source_id 1604316784</text>
+  <line x1="90" y1="567" x2="444" y2="567" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="90" y="600" font-size="12" font-weight="700" fill="#536174">EXACT PROOF</text>
+  <text class="mono" x="90" y="628" font-size="13">kd-tree 16 evaluated · 44,675 pruned</text>
+  <text class="mono" x="90" y="655" font-size="13">oracle 44,691 evaluated · MATCH</text>
+  <rect x="90" y="676" width="354" height="24" rx="12" fill="#E7F5ED"/>
+  <text x="267" y="693" text-anchor="middle" font-size="11" font-weight="700" fill="#155A36">ORDERED TOP-3 RANK KEYS AGREE</text>
+  <rect x="498" y="186" width="402" height="532" rx="16" fill="#FFFFFF" stroke="#087F73" stroke-width="2"/>
+  <rect x="498" y="186" width="402" height="76" rx="15" fill="#E2F4F1"/>
+  <text x="522" y="218" font-size="13" font-weight="700" fill="#075E57">CASE 2</text>
+  <text x="522" y="245" font-size="20" font-weight="700">Antimeridian</text>
+  <text x="522" y="298" font-size="12" font-weight="700" fill="#536174">REQUESTED</text>
+  <text class="mono" x="522" y="325" font-size="15">(-16, 180)</text>
+  <text x="522" y="364" font-size="12" font-weight="700" fill="#536174">CANONICAL E7</text>
+  <text class="mono" x="522" y="391" font-size="15">(-160000000, -1800000000)</text>
+  <rect x="522" y="412" width="354" height="38" rx="8" fill="#E2F4F1"/>
+  <text x="699" y="437" text-anchor="middle" font-size="13" font-weight="700" fill="#075E57">NORMALIZED</text>
+  <text x="522" y="486" font-size="12" font-weight="700" fill="#536174">NEAREST REAL RESULT</text>
+  <text x="522" y="516" font-size="17" font-weight="700">Labasa (FJ) · 82,573 m</text>
+  <text class="mono" x="522" y="542" font-size="12" fill="#536174">source_id 1242740801</text>
+  <line x1="522" y1="567" x2="876" y2="567" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="522" y="600" font-size="12" font-weight="700" fill="#536174">EXACT PROOF</text>
+  <text class="mono" x="522" y="628" font-size="13">kd-tree 25 evaluated · 44,666 pruned</text>
+  <text class="mono" x="522" y="655" font-size="13">oracle 44,691 evaluated · MATCH</text>
+  <rect x="522" y="676" width="354" height="24" rx="12" fill="#E7F5ED"/>
+  <text x="699" y="693" text-anchor="middle" font-size="11" font-weight="700" fill="#155A36">ORDERED TOP-3 RANK KEYS AGREE</text>
+  <rect x="930" y="186" width="402" height="532" rx="16" fill="#FFFFFF" stroke="#B7791F" stroke-width="2"/>
+  <rect x="930" y="186" width="402" height="76" rx="15" fill="#FBF1D8"/>
+  <text x="954" y="218" font-size="13" font-weight="700" fill="#6F4A0C">CASE 3</text>
+  <text x="954" y="245" font-size="20" font-weight="700">North-pole collapse</text>
+  <text x="954" y="298" font-size="12" font-weight="700" fill="#536174">REQUESTED</text>
+  <text class="mono" x="954" y="325" font-size="15">(90, 73)</text>
+  <text x="954" y="364" font-size="12" font-weight="700" fill="#536174">CANONICAL E7</text>
+  <text class="mono" x="954" y="391" font-size="15">(900000000, 0)</text>
+  <rect x="954" y="412" width="354" height="38" rx="8" fill="#FBF1D8"/>
+  <text x="1131" y="437" text-anchor="middle" font-size="13" font-weight="700" fill="#6F4A0C">NORMALIZED</text>
+  <text x="954" y="486" font-size="12" font-weight="700" fill="#536174">NEAREST REAL RESULT</text>
+  <text x="954" y="516" font-size="17" font-weight="700">Nord (GL) · 921,073 m</text>
+  <text class="mono" x="954" y="542" font-size="12" fill="#536174">source_id 1304217709</text>
+  <line x1="954" y1="567" x2="1308" y2="567" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="954" y="600" font-size="12" font-weight="700" fill="#536174">EXACT PROOF</text>
+  <text class="mono" x="954" y="628" font-size="13">kd-tree 48 evaluated · 44,643 pruned</text>
+  <text class="mono" x="954" y="655" font-size="13">oracle 44,691 evaluated · MATCH</text>
+  <rect x="954" y="676" width="354" height="24" rx="12" fill="#E7F5ED"/>
+  <text x="1131" y="693" text-anchor="middle" font-size="11" font-weight="700" fill="#155A36">ORDERED TOP-3 RANK KEYS AGREE</text>
+  <rect x="66" y="744" width="1268" height="50" rx="10" fill="#F5F8FC" stroke="#D7E0EA" stroke-width="1"/>
+  <text x="88" y="766" font-size="13" font-weight="700" fill="#173B5F">CO-LOCATION ORDER</text>
+  <text class="mono" x="88" y="785" font-size="12" fill="#536174">1604316784 (Huacho, 0 m) → 1604503366 (Huaura, 0 m) · stable source_id breaks the exact-distance tie</text>
+  <text class="mono" x="1312" y="776" text-anchor="end" font-size="11" fill="#536174">source de941def7fac…</text>
+</svg>
