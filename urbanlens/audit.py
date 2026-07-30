@@ -19,7 +19,8 @@ import stat
 import sys
 from collections import Counter, defaultdict
 from collections.abc import Sequence
-from dataclasses import dataclass
+from contextlib import suppress
+from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, BinaryIO, Final
@@ -50,6 +51,18 @@ class SnapshotContract:
     data_rows: int
     columns: tuple[str, ...]
     capital_values: frozenset[str]
+
+
+@dataclass(frozen=True, slots=True)
+class DatasetCapture:
+    """One bounded, immutable CSV snapshot captured from an open regular file."""
+
+    source_name: str
+    sha256: str
+    byte_size: int
+    columns: tuple[str, ...]
+    rows: tuple[tuple[str, ...], ...]
+    identity: os.stat_result = field(repr=False, compare=False)
 
 
 @dataclass(frozen=True)
@@ -224,7 +237,8 @@ def _read_rows(
                 ) from error
             if len(parsed_records) != 1:
                 raise DatasetInputError(
-                    f"physical line {physical_line_number} did not produce one CSV record"
+                    "physical line "
+                    f"{physical_line_number} did not produce one CSV record"
                 )
             record = parsed_records[0]
             if len(record) > MAX_DATASET_COLUMNS:
@@ -250,6 +264,55 @@ def _read_rows(
     if header is None:
         raise DatasetInputError("dataset is empty and has no CSV header")
     return header, rows
+
+
+def capture_dataset(dataset_path: Path) -> DatasetCapture:
+    """Capture and parse one bounded, unchanged regular CSV file exactly once."""
+
+    try:
+        path_metadata = dataset_path.lstat()
+    except OSError as error:
+        raise DatasetInputError(f"cannot inspect dataset: {error}") from error
+    if stat.S_ISLNK(path_metadata.st_mode):
+        raise DatasetInputError("dataset must be a regular file, not a symlink")
+    if not stat.S_ISREG(path_metadata.st_mode):
+        raise DatasetInputError("dataset must be a regular file")
+
+    try:
+        with _open_dataset(dataset_path) as stream:
+            before = os.fstat(stream.fileno())
+            if not stat.S_ISREG(before.st_mode):
+                raise DatasetInputError("opened dataset is not a regular file")
+            if before.st_size > MAX_DATASET_BYTES:
+                raise DatasetInputError(
+                    f"dataset exceeds the {MAX_DATASET_BYTES}-byte safety limit"
+                )
+            if (
+                before.st_dev,
+                before.st_ino,
+            ) != (
+                path_metadata.st_dev,
+                path_metadata.st_ino,
+            ):
+                raise DatasetInputError("dataset path changed before it was opened")
+            payload, digest = _capture_open_file(stream)
+            after = os.fstat(stream.fileno())
+    except DatasetInputError:
+        raise
+    except OSError as error:
+        raise DatasetInputError(f"cannot read dataset: {error}") from error
+    if not _same_open_file(before, after):
+        raise DatasetInputError("dataset changed while it was being audited")
+
+    header, rows = _read_rows(payload)
+    return DatasetCapture(
+        source_name=dataset_path.name,
+        sha256=digest,
+        byte_size=before.st_size,
+        columns=tuple(header),
+        rows=tuple(tuple(row) for row in rows),
+        identity=before,
+    )
 
 
 def _check(check_id: str, actual: Any, expected: Any) -> dict[str, Any]:
@@ -293,8 +356,8 @@ def _observation(
 
 
 def _profile(
-    header: list[str],
-    rows: list[list[str]],
+    header: Sequence[str],
+    rows: Sequence[Sequence[str]],
     contract: SnapshotContract,
 ) -> dict[str, Any]:
     row_width_mismatch_count = sum(len(row) != len(header) for row in rows)
@@ -304,7 +367,7 @@ def _profile(
         if len(matches) == 1:
             header_positions[column] = matches[0]
 
-    blank_counts = {column: 0 for column in contract.columns}
+    blank_counts: dict[str, int] = dict.fromkeys(contract.columns, 0)
     distinct_values: dict[str, set[str]] = {
         column: set() for column in contract.columns
     }
@@ -416,49 +479,15 @@ def _profile(
     }
 
 
-def _audit_dataset_with_identity(
-    dataset_path: Path,
+def audit_capture(
+    capture: DatasetCapture,
     *,
     contract: SnapshotContract = DEFAULT_CONTRACT,
-) -> tuple[dict[str, Any], os.stat_result]:
-    """Audit one captured file and return its manifest and open-file identity."""
+) -> dict[str, Any]:
+    """Audit one immutable capture without reopening its source path."""
 
-    try:
-        path_metadata = dataset_path.lstat()
-    except OSError as error:
-        raise DatasetInputError(f"cannot inspect dataset: {error}") from error
-    if stat.S_ISLNK(path_metadata.st_mode):
-        raise DatasetInputError("dataset must be a regular file, not a symlink")
-    if not stat.S_ISREG(path_metadata.st_mode):
-        raise DatasetInputError("dataset must be a regular file")
-
-    try:
-        with _open_dataset(dataset_path) as stream:
-            before = os.fstat(stream.fileno())
-            if not stat.S_ISREG(before.st_mode):
-                raise DatasetInputError("opened dataset is not a regular file")
-            if before.st_size > MAX_DATASET_BYTES:
-                raise DatasetInputError(
-                    f"dataset exceeds the {MAX_DATASET_BYTES}-byte safety limit"
-                )
-            if (
-                before.st_dev,
-                before.st_ino,
-            ) != (
-                path_metadata.st_dev,
-                path_metadata.st_ino,
-            ):
-                raise DatasetInputError("dataset path changed before it was opened")
-            payload, digest = _capture_open_file(stream)
-            after = os.fstat(stream.fileno())
-    except DatasetInputError:
-        raise
-    except OSError as error:
-        raise DatasetInputError(f"cannot read dataset: {error}") from error
-    if not _same_open_file(before, after):
-        raise DatasetInputError("dataset changed while it was being audited")
-    header, rows = _read_rows(payload)
-
+    header = capture.columns
+    rows = capture.rows
     profile = _profile(header, rows, contract)
     data_rows = len(rows)
     blank_counts = profile["blank_counts"]
@@ -472,15 +501,15 @@ def _audit_dataset_with_identity(
         column: blank_counts[column] for column in required_columns
     }
     checks = [
-        _check("snapshot.sha256", digest, contract.sha256),
-        _check("snapshot.byte_size", before.st_size, contract.byte_size),
+        _check("snapshot.sha256", capture.sha256, contract.sha256),
+        _check("snapshot.byte_size", capture.byte_size, contract.byte_size),
         _check("snapshot.data_rows", data_rows, contract.data_rows),
-        _check("schema.columns", header, list(contract.columns)),
+        _check("schema.columns", list(header), list(contract.columns)),
         _check("schema.row_width_mismatches", profile["row_width_mismatch_count"], 0),
         _check(
             "required_fields.blank_counts",
             required_blank_counts,
-            {column: 0 for column in required_columns},
+            dict.fromkeys(required_columns, 0),
         ),
         _check(
             "id.duplicate_row_excess",
@@ -590,11 +619,11 @@ def _audit_dataset_with_identity(
 
     manifest = {
         "dataset": {
-            "byte_size": before.st_size,
+            "byte_size": capture.byte_size,
             "data_rows": data_rows,
             "encoding": "utf-8-sig",
-            "name": dataset_path.name,
-            "sha256": digest,
+            "name": capture.source_name,
+            "sha256": capture.sha256,
         },
         "grain": {
             "candidate_key": ["id"],
@@ -629,7 +658,7 @@ def _audit_dataset_with_identity(
         },
         "schema": {
             "column_count": len(header),
-            "columns": header,
+            "columns": list(header),
             "row_width_mismatch_count": profile["row_width_mismatch_count"],
         },
         "scope": {
@@ -645,7 +674,18 @@ def _audit_dataset_with_identity(
             ],
         },
     }
-    return manifest, before
+    return manifest
+
+
+def _audit_dataset_with_identity(
+    dataset_path: Path,
+    *,
+    contract: SnapshotContract = DEFAULT_CONTRACT,
+) -> tuple[dict[str, Any], os.stat_result]:
+    """Audit one capture and return its manifest and held open-file identity."""
+
+    capture = capture_dataset(dataset_path)
+    return audit_capture(capture, contract=contract), capture.identity
 
 
 def audit_dataset(
@@ -771,10 +811,8 @@ def _write_atomic(output: AnchoredOutput, payload: bytes) -> None:
         raise
     except OSError as error:
         if temporary_name is not None:
-            try:
+            with suppress(OSError):
                 os.unlink(temporary_name, dir_fd=output.directory_fd)
-            except OSError:
-                pass
         raise ManifestOutputError(f"cannot write manifest: {error}") from error
 
 

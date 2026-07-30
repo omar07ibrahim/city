@@ -17,6 +17,7 @@ import stat
 import subprocess
 import sys
 from collections.abc import Mapping, Sequence
+from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final, cast
@@ -961,10 +962,8 @@ def _write_visuals_to_anchored_directory(
         raise VisualOutputError(f"cannot write visual artifacts: {error}") from error
     finally:
         for temporary_name in staged.values():
-            try:
+            with suppress(OSError):
                 os.unlink(temporary_name, dir_fd=directory_fd)
-            except OSError:
-                pass
 
 
 def write_visuals(output_directory: Path, artifacts: Mapping[str, bytes]) -> None:

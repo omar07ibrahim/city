@@ -108,13 +108,24 @@ documented in the [phase-0 visual evidence contract](docs/chart-contract.md).
 
 ## Run the reproducible audit
 
-The phase-0 audit is now an executable, dependency-free contract. It reads the
-real checked-in CSV and emits a deterministic aggregate manifest:
+UrbanLens has no runtime dependencies and supports Python 3.11 and 3.12. A
+local development environment installs the package, typed console entry
+points, and the pinned-major QA tools declared in `pyproject.toml`:
 
 ```bash
-python3 -m urbanlens.audit \
+python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[dev]'
+```
+
+The phase-0 audit is an executable contract. It reads the real checked-in CSV
+and emits a deterministic aggregate manifest:
+
+```bash
+.venv/bin/urbanlens-audit \
   --check-manifest artifacts/data_quality/train.quality.json
-python3 -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/ruff check urbanlens tests
+.venv/bin/mypy urbanlens tests
 ```
 
 A fresh manifest can be printed to standard output or written atomically:
@@ -187,5 +198,9 @@ checked instead of being hand-made mockups.
   a runnable ML product.
 - The exact upstream package version is inferred, not cryptographically proven.
 - The data is historical and must not be described as current.
-- No code license has been selected yet; the data license does not
-  automatically license future project code.
+
+## Licensing
+
+UrbanLens application code is released under the [MIT License](LICENSE).
+`train.csv` is a separately licensed dataset; its CC BY 4.0 attribution and
+provenance limitations are documented in [DATA_LICENSE.md](DATA_LICENSE.md).
