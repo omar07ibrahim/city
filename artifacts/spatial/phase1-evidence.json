@@ -1,0 +1,319 @@
+{
+  "aggregate": {
+    "accelerated_evaluations": 105,
+    "oracle_evaluations": 178764,
+    "pruned_records": 178659,
+    "query_count": 4,
+    "visited_nodes": 187,
+    "work_reduction": {
+      "avoided_evaluations": 178659,
+      "basis_points": 9994,
+      "fraction": {
+        "denominator": 178764,
+        "numerator": 178659
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "co-location",
+      "proof": {
+        "accelerated": {
+          "evaluated": 16,
+          "pruned": 44675,
+          "visited": 30
+        },
+        "oracle": {
+          "evaluated": 44691,
+          "status": "match"
+        },
+        "work_reduction": {
+          "avoided_evaluations": 44675,
+          "basis_points": 9996,
+          "fraction": {
+            "denominator": 44691,
+            "numerator": 44675
+          }
+        }
+      },
+      "purpose": "stable source-id ordering at an exact shared location",
+      "query": {
+        "canonical": {
+          "latitude": "-11.1",
+          "latitude_e7": -111000000,
+          "longitude": "-77.6",
+          "longitude_e7": -776000000
+        },
+        "k": 3,
+        "requested": {
+          "latitude": "-11.1",
+          "longitude": "-77.6"
+        }
+      },
+      "results": [
+        {
+          "city_ascii": "Huacho",
+          "country": "Peru",
+          "distance_m": 0,
+          "iso2": "PE",
+          "latitude_e7": -111000000,
+          "longitude_e7": -776000000,
+          "rank": 1,
+          "source_id": "1604316784"
+        },
+        {
+          "city_ascii": "Huaura",
+          "country": "Peru",
+          "distance_m": 0,
+          "iso2": "PE",
+          "latitude_e7": -111000000,
+          "longitude_e7": -776000000,
+          "rank": 2,
+          "source_id": "1604503366"
+        },
+        {
+          "city_ascii": "Barranca",
+          "country": "Peru",
+          "distance_m": 42289,
+          "iso2": "PE",
+          "latitude_e7": -107541000,
+          "longitude_e7": -777610000,
+          "rank": 3,
+          "source_id": "1604547675"
+        }
+      ]
+    },
+    {
+      "case_id": "antimeridian",
+      "proof": {
+        "accelerated": {
+          "evaluated": 25,
+          "pruned": 44666,
+          "visited": 43
+        },
+        "oracle": {
+          "evaluated": 44691,
+          "status": "match"
+        },
+        "work_reduction": {
+          "avoided_evaluations": 44666,
+          "basis_points": 9994,
+          "fraction": {
+            "denominator": 44691,
+            "numerator": 44666
+          }
+        }
+      },
+      "purpose": "canonical +180/-180 longitude equivalence",
+      "query": {
+        "canonical": {
+          "latitude": "-16",
+          "latitude_e7": -160000000,
+          "longitude": "-180",
+          "longitude_e7": -1800000000
+        },
+        "k": 3,
+        "requested": {
+          "latitude": "-16",
+          "longitude": "180"
+        }
+      },
+      "results": [
+        {
+          "city_ascii": "Labasa",
+          "country": "Fiji",
+          "distance_m": 82573,
+          "iso2": "FJ",
+          "latitude_e7": -164311000,
+          "longitude_e7": 1793703000,
+          "rank": 1,
+          "source_id": "1242740801"
+        },
+        {
+          "city_ascii": "Nausori",
+          "country": "Fiji",
+          "distance_m": 273112,
+          "iso2": "FJ",
+          "latitude_e7": -180244000,
+          "longitude_e7": 1785454000,
+          "rank": 2,
+          "source_id": "1242640119"
+        },
+        {
+          "city_ascii": "Leava",
+          "country": "Wallis and Futuna",
+          "distance_m": 274019,
+          "iso2": "WF",
+          "latitude_e7": -142933000,
+          "longitude_e7": -1781583000,
+          "rank": 3,
+          "source_id": "1876731744"
+        }
+      ]
+    },
+    {
+      "case_id": "north-pole",
+      "proof": {
+        "accelerated": {
+          "evaluated": 48,
+          "pruned": 44643,
+          "visited": 84
+        },
+        "oracle": {
+          "evaluated": 44691,
+          "status": "match"
+        },
+        "work_reduction": {
+          "avoided_evaluations": 44643,
+          "basis_points": 9989,
+          "fraction": {
+            "denominator": 44691,
+            "numerator": 44643
+          }
+        }
+      },
+      "purpose": "longitude collapse at the geographic pole",
+      "query": {
+        "canonical": {
+          "latitude": "90",
+          "latitude_e7": 900000000,
+          "longitude": "0",
+          "longitude_e7": 0
+        },
+        "k": 3,
+        "requested": {
+          "latitude": "90",
+          "longitude": "73"
+        }
+      },
+      "results": [
+        {
+          "city_ascii": "Nord",
+          "country": "Greenland",
+          "distance_m": 921073,
+          "iso2": "GL",
+          "latitude_e7": 817166000,
+          "longitude_e7": -178000000,
+          "rank": 1,
+          "source_id": "1304217709"
+        },
+        {
+          "city_ascii": "Longyearbyen",
+          "country": "Svalbard",
+          "distance_m": 1310245,
+          "iso2": "XR",
+          "latitude_e7": 782167000,
+          "longitude_e7": 156333000,
+          "rank": 2,
+          "source_id": "1930654114"
+        },
+        {
+          "city_ascii": "Qaanaaq",
+          "country": "Greenland",
+          "distance_m": 1393641,
+          "iso2": "GL",
+          "latitude_e7": 774667000,
+          "longitude_e7": -692306000,
+          "rank": 3,
+          "source_id": "1304094556"
+        }
+      ]
+    },
+    {
+      "case_id": "london",
+      "proof": {
+        "accelerated": {
+          "evaluated": 16,
+          "pruned": 44675,
+          "visited": 30
+        },
+        "oracle": {
+          "evaluated": 44691,
+          "status": "match"
+        },
+        "work_reduction": {
+          "avoided_evaluations": 44675,
+          "basis_points": 9996,
+          "fraction": {
+            "denominator": 44691,
+            "numerator": 44675
+          }
+        }
+      },
+      "purpose": "ordinary urban nearest-neighbour reference",
+      "query": {
+        "canonical": {
+          "latitude": "51.5074",
+          "latitude_e7": 515074000,
+          "longitude": "-0.1278",
+          "longitude_e7": -1278000
+        },
+        "k": 3,
+        "requested": {
+          "latitude": "51.5074",
+          "longitude": "-0.1278"
+        }
+      },
+      "results": [
+        {
+          "city_ascii": "London",
+          "country": "United Kingdom",
+          "distance_m": 30,
+          "iso2": "GB",
+          "latitude_e7": 515072000,
+          "longitude_e7": -1275000,
+          "rank": 1,
+          "source_id": "1826645935"
+        },
+        {
+          "city_ascii": "Westminster",
+          "country": "United Kingdom",
+          "distance_m": 1505,
+          "iso2": "GB",
+          "latitude_e7": 514947000,
+          "longitude_e7": -1353000,
+          "rank": 2,
+          "source_id": "1826759011"
+        },
+        {
+          "city_ascii": "Holborn",
+          "country": "United Kingdom",
+          "distance_m": 1748,
+          "iso2": "GB",
+          "latitude_e7": 515204000,
+          "longitude_e7": -1136000,
+          "rank": 3,
+          "source_id": "1826657058"
+        }
+      ]
+    }
+  ],
+  "evidence": {
+    "canonicalization": "US-ASCII, sorted object keys, two-space indent, LF, final newline",
+    "phase": 1,
+    "schema": "urbanlens.spatial-phase1-evidence",
+    "schema_version": 1,
+    "tool": "python3 -m urbanlens.spatial_evidence",
+    "tool_version": "0.3.0"
+  },
+  "index": {
+    "algorithm": "balanced-unit-sphere-kd-tree",
+    "collision_excess": 137,
+    "collision_groups": 106,
+    "coordinate_scale": 10000000,
+    "depth": 16,
+    "earth_radius_millimeters": 6371008800,
+    "max_location_multiplicity": 7,
+    "records": 44691,
+    "topology_sha256": "5ba1bb95e167d7bdf3b9e28e8e211756eab48888c281c215d1dccf801db3cb72",
+    "unique_numeric_locations": 44554,
+    "version": 1
+  },
+  "source": {
+    "audit_schema": "urbanlens.data-quality-manifest",
+    "audit_schema_version": 3,
+    "byte_size": 4734682,
+    "data_rows": 44691,
+    "sha256": "de941def7faca87c0911abb79c3cbd07672887fd486a9b7bea6c48c12ce0cf18"
+  }
+}
