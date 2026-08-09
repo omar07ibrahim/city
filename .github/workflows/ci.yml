@@ -105,10 +105,10 @@ jobs:
           (
             cd "$RUNNER_TEMP"
             "$RUNNER_TEMP/urbanlens-smoke/bin/urbanlens-audit" \
-              --dataset "$GITHUB_WORKSPACE/train.csv" \
+              "$GITHUB_WORKSPACE/train.csv" \
               --check-manifest "$GITHUB_WORKSPACE/artifacts/data_quality/train.quality.json"
             "$RUNNER_TEMP/urbanlens-smoke/bin/urbanlens-nearest" \
-              --dataset "$GITHUB_WORKSPACE/train.csv" \
+              "$GITHUB_WORKSPACE/train.csv" \
               --lat -11.1 \
               --lon -77.6 \
               --k 3 \
