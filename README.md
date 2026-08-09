@@ -1,5 +1,7 @@
 # UrbanLens
 
+[![CI](https://github.com/omar07ibrahim/city/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/omar07ibrahim/city/actions/workflows/ci.yml) [![Python 3.11–3.14](https://img.shields.io/badge/Python-3.11--3.14-3776AB?logo=python&logoColor=white)](https://github.com/omar07ibrahim/city/blob/main/pyproject.toml)
+
 UrbanLens is an auditable exact nearest-city engine over a frozen historical
 world-cities snapshot. It turns 44,691 source records into a deterministic
 unit-sphere k-d tree, proves every checked result against a full-scan oracle,
@@ -25,7 +27,7 @@ reproducible evidence and real CLI captures.
 | Verification | Optional full scan using the same public rank contract |
 | Query bound | One query per process, `1 <= k <= 100` |
 | Receipt bound | Canonical ASCII JSON, at most 256 KiB |
-| Runtime dependencies | None; Python 3.11 or 3.12 |
+| Runtime dependencies | None; Python 3.11–3.14 |
 
 The checked four-query evidence workload evaluates 105 candidate records with
 the tree and 178,764 with the oracle, avoiding 178,659 evaluations (99.94%).
@@ -277,8 +279,9 @@ Run the full local gate:
 .venv/bin/python -m build --sdist --wheel
 ```
 
-At this revision on Python 3.12.3, all 137 tests pass and combined statement
-and branch coverage is 82%. The configured coverage floor is 75%.
+Hosted CI runs all 137 tests on Python 3.11, 3.12, 3.13, and 3.14. Its
+exact Python 3.12.3 evidence job reports 82% combined statement and branch
+coverage against a configured 75% floor.
 
 The suite covers strict coordinate parsing, spherical edge cases, randomized
 AABB lower bounds, accelerated/full-scan differential queries, deterministic
@@ -287,8 +290,8 @@ caps, source-capture identity, safe output handling, canonical byte output,
 hostile stdout encodings, evidence freshness, actual CLI binding, SVG
 accessibility, and no-follow atomic writes.
 
-The release smoke check additionally installs the freshly built wheel into a
-clean local environment and exercises the `urbanlens-nearest` entry point
+The release smoke check additionally installs the freshly built wheel into an
+isolated hosted environment and exercises the `urbanlens-nearest` entry point
 against the real dataset.
 
 ## Repository map
